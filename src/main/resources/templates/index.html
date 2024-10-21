@@ -1,11 +1,47 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title></title>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
-
-
+<div>
+    <br><br>
+    <div>
+        <button  type="button">
+            <a href="/user/add" th:href="@{/user/add}" style="text-decoration: none">Добавить пользователя</a>
+        </button>
+    </div>
+    <br>
+    <h2>Список пользователей</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id пользователя</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${list}">
+            <td th:text="${car.id}">Id</td>
+            <td th:text="${car.name}">Имя</td>
+            <td th:text="${car.surname}">Фамилия</td>
+            <td th:text="${car.age}">Возраст</td>
+            <td>
+                <button  type="button">
+                    <a href="/user/edit" th:href="@{/user/edit(userId=${car.id})}" style="text-decoration: none">Изменить</a>
+                </button>
+                <button  type="button">
+                    <a href="/user/delete" th:href="@{user/delete(userId=${car.id})}" style="text-decoration: none">Удалить</a>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
