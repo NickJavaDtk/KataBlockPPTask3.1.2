@@ -7,11 +7,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Repository
 @Entity
 @Table(name = "users")
 public class User {
@@ -20,7 +21,8 @@ public class User {
     @Column(name = "users_id")
     private Long id;
     @NotBlank(message = "Логин не должен быть пустым")
-    private String login;
+    @Column(name = "login")
+    private String username;
     @NotBlank(message = "Пароль не должно быть пустым")
     @Size(min = 5, message = "Минимальная длина пароль 5 символов")
     private String password;
@@ -33,7 +35,7 @@ public class User {
     @Min(value = 0, message = "возраст не может быть меньше 0")
     private Integer age;
 
-    @Column(name = "roles")
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
@@ -44,8 +46,8 @@ public class User {
     public User() {
     }
 
-    public User(String login, String password, String name, String surname, Integer age) {
-        this.login = login;
+    public User(String username, String password, String name, String surname, Integer age) {
+        this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
@@ -84,12 +86,12 @@ public class User {
            this.age = age;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String login) {
+        this.username = login;
     }
 
     public String getPassword() {

@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.spring.model.Role;
 import ru.kata.spring.boot_security.demo.spring.model.User;
 
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class UserDetailsImp implements UserDetails {
     private User user;
 
@@ -35,7 +37,7 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getLogin();
+        return user.getUsername();
     }
 
     @Override

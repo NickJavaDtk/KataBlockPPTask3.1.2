@@ -53,7 +53,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserByUserLogin(String login) {
-        return  manager.find(User.class, login );
+        return  getUserList().stream().filter(log -> log.getUsername().equals(login)).findFirst().orElse(null);
     }
 
 

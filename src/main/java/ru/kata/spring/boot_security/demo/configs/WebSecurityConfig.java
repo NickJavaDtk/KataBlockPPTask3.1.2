@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.kata.spring.boot_security.demo.security.UserDetailsServiceImp;
+import ru.kata.spring.boot_security.demo.spring.service.UserServiceImp;
 
 @Configuration
 
@@ -21,7 +21,7 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImp();
+        return new UserServiceImp();
     }
 
     @Bean
@@ -40,11 +40,16 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers("/user").hasAnyAuthority("USER", "ADMIN")
+                .requestMatchers("/resources/**").permitAll()
+                .requestMatchers("/login", "/error").permitAll()
+
+                .requestMatchers("/user", "/home").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated())
-                .formLogin(login -> login.permitAll())
+                .formLogin(login -> login
+                                    .loginPage("/login")
+                                    .loginProcessingUrl("/home")
+                                    .permitAll())
                 .logout(logout -> logout.permitAll())
                 .exceptionHandling(eh -> eh.accessDeniedPage("/403"))
                 ;

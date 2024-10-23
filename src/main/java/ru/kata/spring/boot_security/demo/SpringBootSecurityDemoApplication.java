@@ -7,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import ru.kata.spring.boot_security.demo.spring.model.Role;
 import ru.kata.spring.boot_security.demo.spring.model.RoleEnum;
 import ru.kata.spring.boot_security.demo.spring.model.User;
-import ru.kata.spring.boot_security.demo.spring.model.UserService;
+import ru.kata.spring.boot_security.demo.spring.service.UserService;
 import ru.kata.spring.boot_security.demo.spring.service.UserServiceImp;
 
 import java.util.Arrays;
@@ -29,13 +29,14 @@ public class SpringBootSecurityDemoApplication {
 		roleUserSet.add(user);
 		Set<Role> roleAdminSet = new HashSet<>();
 		roleAdminSet.add(admin);
-
-		Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out :: println);
+		userRoleUser.setRoleSet(roleUserSet);
+		adminRoleAdmin.setRoleSet(roleAdminSet);
 
 
 		UserService service = context.getBean("userServiceImp", UserServiceImp.class);
-		service.addUser(userRoleUser);
-		service.addUser(adminRoleAdmin);
+//		service.addUser(userRoleUser);
+//		service.addUser(adminRoleAdmin);
+
 	}
 
 }
