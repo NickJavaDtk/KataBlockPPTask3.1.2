@@ -10,7 +10,7 @@
     <br><br>
     <div>
         <button  type="button">
-            <a href="/user/add" th:href="@{/user/add}" style="text-decoration: none">Добавить пользователя</a>
+            <a href="admin/user/add" th:href="@{admin/user/add}" style="text-decoration: none">Добавить пользователя</a>
         </button>
     </div>
     <br>
@@ -19,24 +19,29 @@
         <thead>
         <tr>
             <th>Id пользователя</th>
+            <td>Логин</td>
+            <td>Пароль</td>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>Возраст</th>
+            <th>Роль</th>
             <th>Действие</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="car : ${list}">
-            <td th:text="${car.id}">Id</td>
-            <td th:text="${car.name}">Имя</td>
-            <td th:text="${car.surname}">Фамилия</td>
-            <td th:text="${car.age}">Возраст</td>
+        <tr th:each="user : ${list}">
+            <td th:text="${user.username}">Логин</td>
+            <td th:text="${user.password}">Пароль</td>
+            <td th:text="${user.name}">Имя</td>
+            <td th:text="${user.surname}">Фамилия</td>
+            <td th:text="${user.age}">Возраст</td>
+            <td th:text="${user.roleSet}">Роль</td>
             <td>
                 <button  type="button">
-                    <a href="/user/edit" th:href="@{/user/edit(userId=${car.id})}" style="text-decoration: none">Изменить</a>
+                    <a href="admin/user/edit" th:href="@{admin/user/edit(userId=${user.id})}" style="text-decoration: none">Изменить</a>
                 </button>
                 <button  type="button">
-                    <a href="/user/delete" th:href="@{user/delete(userId=${car.id})}" style="text-decoration: none">Удалить</a>
+                    <a href="admin/user/delete" th:href="@{admin/user/delete(userId=${user.id})}" style="text-decoration: none">Удалить</a>
                 </button>
             </td>
         </tr>

@@ -79,7 +79,7 @@ public class User {
     }
 
     public int getAge() {
-        return age;
+        return age != null ? age : 1;
     }
 
     public void setAge(Integer age) {

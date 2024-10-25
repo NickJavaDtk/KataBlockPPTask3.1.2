@@ -8,18 +8,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
-import ru.kata.spring.boot_security.demo.spring.dao.UserDao;
 import ru.kata.spring.boot_security.demo.spring.model.User;
-
+import ru.kata.spring.boot_security.demo.spring.repository.UserRepository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
-    private UserDao dao;
+    private UserRepository repository;
 
     @Autowired
     BCryptPasswordEncoder encoder;
@@ -29,48 +28,57 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
 
 
+    @Transactional
     @Override
-    public User getUser(String id) {
+    public Optional<User> getUser(String id) {
         if(checkLongValue(id)) {
-            return dao.getUser(Long.parseLong(id));
+           return repository.findById(Long.valueOf(id));
         }
         return null;
     }
 
+    @Transactional
     @Override
     public void addUser(User user) {
-        String s = "";
         user.setPassword(encoder.encode(user.getPassword()));
-
-        dao.addUser(user);
+        repository.save(user);
     }
 
+    @Transactional
     @Override
     public void updateUser(String id, User user) {
         if (checkLongValue(id)) {
-            user.setPassword(encoder.encode(user.getPassword()));
-            dao.updateUser(Long.parseLong(id), user);
+            User userTmp = getUser(id).get();
+            if (userTmp != null) {
+                userTmp.setPassword(encoder.encode(user.getPassword()));
+                userTmp.setName(user.getName());
+                userTmp.setSurname(user.getSurname());
+                userTmp.setAge(user.getAge());
+                userTmp.setRoleSet(user.getRoleSet());
+                repository.save(userTmp);
+            }
         }
     }
 
+    @Transactional
     @Override
     public void deleteUser(String id) {
        if (checkLongValue(id)) {
-           dao.deleteUser(Long.parseLong(id));
+           repository.deleteById(Long.parseLong(id));
        }
     }
 
+    @Transactional
     @Override
     public List<User> getUserList() {
-        return dao.getUserList();
+        return repository.findAll();
     }
 
     @Override
-    public boolean checkUserLoginPasswordExist(String login, String password) {
-        UserDetails userDetails = loadUserByUsername(login);
-        String passUserDetails = userDetails.getPassword();
-        return password.equals(encoder.encode(userDetails.getPassword()));
+    public Optional<User> getUserByUsername(String username) {
+        return repository.findUserByUsername(username);
     }
+
 
     private boolean checkLongValue(String longValue) {
         long idTmp = 0L;
@@ -85,11 +93,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userTmp = dao.getUserByUserLogin(username);
+        User userTmp = getUserByUsername(username).orElse(null);
         if (userTmp == null) {
             throw new UsernameNotFoundException("Пользователь с логином " + username + " не найден");
         }
         return new UserDetailsImp(userTmp);
-
     }
+
 }

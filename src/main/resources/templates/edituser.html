@@ -26,6 +26,9 @@
     <br><br>
     <span style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Возраст некорректен</span>
     <br><br>
+    <input type="checkbox" name="USER" th:field="*{roleSet}">
+    <br><br>
+    <input type="checkbox" name="ADMIN" th:field="*{roleSet}">
     <button type="submit">Сохранить</button>
 </form>
 </body>

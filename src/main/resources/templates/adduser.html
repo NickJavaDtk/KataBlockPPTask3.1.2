@@ -9,7 +9,17 @@
 <body>
     <br><br>
     <h3>Добавить пользователя</h3>
-    <form method="post" th:action="@{/user/add}" th:object="${newuser}">
+    <form method="post" th:action="@{/admin/user/add}" th:object="${newuser}">
+        <br><br>
+        <label>Логин</label>
+        <input type="text" th:field="*{username}" required>
+        <span style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Логин некорректно</span>
+        <br><br>
+        <br><br>
+        <label>Пароль</label>
+        <input type="password" th:field="*{password}" required>
+        <span style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Пароль некорректен</span>
+        <br><br>
         <br><br>
             <label>Имя пользователя</label>
             <input type="text" th:field="*{name}" required>
@@ -25,6 +35,12 @@
             <input type="text" th:field="*{age}"  required>
         <br><br>
             <span style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Возраст некорректен</span>
+        <br><br>
+            <label>Выберите права Пользователя</label>
+        <th:block th:each="role: ${roles}">
+            <input type="checkbox" th:field="*{roleSet}"
+                   th:text="${role.name}" th:value="${role.id}"/>
+        </th:block>
         <br><br>
     <button type="submit">Сохранить</button>
     </form>

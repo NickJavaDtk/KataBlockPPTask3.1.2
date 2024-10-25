@@ -4,13 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.kata.spring.boot_security.demo.spring.service.UserServiceImp;
 
 @Configuration
-
+@EnableWebSecurity
 public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
 
@@ -41,14 +42,14 @@ public class WebSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/resources/**").permitAll()
-                .requestMatchers("/login", "/error").permitAll()
-
-                .requestMatchers("/user", "/home").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .requestMatchers("/login", "/error", "/logout").permitAll()
+                //.requestMatchers("/user", "/home").hasAnyAuthority("USER", "ADMIN")
+                //.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                                     .loginPage("/login")
-                                    .loginProcessingUrl("/home")
+                                    //.loginProcessingUrl("/home")
+                                    .successHandler(successUserHandler)
                                     .permitAll())
                 .logout(logout -> logout.permitAll())
                 .exceptionHandling(eh -> eh.accessDeniedPage("/403"))
