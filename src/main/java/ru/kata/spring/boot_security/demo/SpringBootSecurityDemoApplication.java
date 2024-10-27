@@ -1,16 +1,14 @@
 package ru.kata.spring.boot_security.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import ru.kata.spring.boot_security.demo.spring.model.Role;
-import ru.kata.spring.boot_security.demo.spring.model.RoleEnum;
-import ru.kata.spring.boot_security.demo.spring.model.User;
-import ru.kata.spring.boot_security.demo.spring.service.UserService;
-import ru.kata.spring.boot_security.demo.spring.service.UserServiceImp;
+import ru.kata.spring.boot_security.demo.domain.model.Role;
+import ru.kata.spring.boot_security.demo.domain.model.RoleEnum;
+import ru.kata.spring.boot_security.demo.domain.model.User;
+import ru.kata.spring.boot_security.demo.domain.service.UserService;
+import ru.kata.spring.boot_security.demo.domain.service.UserServiceImp;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,8 +32,8 @@ public class SpringBootSecurityDemoApplication {
 
 
 		UserService service = context.getBean("userServiceImp", UserServiceImp.class);
-//		service.addUser(userRoleUser);
-//		service.addUser(adminRoleAdmin);
+		service.addUser(userRoleUser);
+		service.addUser(adminRoleAdmin);
 
 	}
 

@@ -7,19 +7,21 @@
     <title>Title</title>
 </head>
 <body>
-    <br><br>
+    <br>
+    <a th:href="@{/logout}">Выйти</a>
+    <br>
     <h3>Добавить пользователя</h3>
     <form method="post" th:action="@{/admin/user/add}" th:object="${newuser}">
         <br><br>
-        <label>Логин</label>
-        <input type="text" th:field="*{username}" required>
-        <span style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Логин некорректно</span>
+            <label>Логин</label>
+            <input type="text" th:field="*{username}" required>
         <br><br>
+            <span style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Логин некорректeн</span>
         <br><br>
-        <label>Пароль</label>
-        <input type="password" th:field="*{password}" required>
-        <span style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Пароль некорректен</span>
+            <label>Пароль</label>
+            <input type="password" th:field="*{password}" required>
         <br><br>
+            <span style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Пароль некорректен</span>
         <br><br>
             <label>Имя пользователя</label>
             <input type="text" th:field="*{name}" required>
@@ -41,6 +43,8 @@
             <input type="checkbox" th:field="*{roleSet}"
                    th:text="${role.name}" th:value="${role.id}"/>
         </th:block>
+        <br><br>
+        <span style="color: red" th:if="${#fields.hasErrors('roleSet')}" th:errors="*{roleSet}">Не выбрана роль</span>
         <br><br>
     <button type="submit">Сохранить</button>
     </form>

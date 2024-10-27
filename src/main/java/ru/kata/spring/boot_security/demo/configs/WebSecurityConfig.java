@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.kata.spring.boot_security.demo.spring.service.UserServiceImp;
+import ru.kata.spring.boot_security.demo.domain.service.UserServiceImp;
 
 @Configuration
 @EnableWebSecurity
@@ -43,19 +43,16 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/resources/**").permitAll()
                 .requestMatchers("/login", "/error", "/logout").permitAll()
-                //.requestMatchers("/user", "/home").hasAnyAuthority("USER", "ADMIN")
-                //.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                                     .loginPage("/login")
-                                    //.loginProcessingUrl("/home")
                                     .successHandler(successUserHandler)
                                     .permitAll())
-                .logout(logout -> logout.permitAll())
-                .exceptionHandling(eh -> eh.accessDeniedPage("/403"))
-                ;
+                .logout(logout -> logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
+                                .permitAll())
+                .exceptionHandling(eh -> eh.accessDeniedPage("/403"));
         return http.build();
-
-
     }
 }

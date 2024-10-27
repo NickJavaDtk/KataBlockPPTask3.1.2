@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.spring.model;
+package ru.kata.spring.boot_security.demo.domain.model;
 
 
 
@@ -21,6 +21,7 @@ public class User {
     @Column(name = "users_id")
     private Long id;
     @NotBlank(message = "Логин не должен быть пустым")
+    //@UniqueElements
     @Column(name = "login")
     private String username;
     @NotBlank(message = "Пароль не должно быть пустым")
@@ -36,7 +37,7 @@ public class User {
     private Integer age;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
         name = "users_roles",
         joinColumns = @JoinColumn(name = "users_id"),
@@ -114,9 +115,12 @@ public class User {
     public String toString() {
         return "Пользователь{" +
                 "id=" + id +
-                ", имя='" + name + '\'' +
-                ", фамилия='" + surname + '\'' +
-                ", возраст=" + age +
+                ", Логин='" + username + '\'' +
+                ", Пароль='" + password + '\'' +
+                ", Имя='" + name + '\'' +
+                ", Фамилия='" + surname + '\'' +
+                ", Возраст=" + age +
+                ", Список ролей=" + roleSet +
                 '}';
     }
 }

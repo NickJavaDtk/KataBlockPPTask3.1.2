@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.spring.model;
+package ru.kata.spring.boot_security.demo.domain.model;
 
 public enum RoleEnum {
     USER, ADMIN;

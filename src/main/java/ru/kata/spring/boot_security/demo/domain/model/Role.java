@@ -1,9 +1,7 @@
-package ru.kata.spring.boot_security.demo.spring.model;
+package ru.kata.spring.boot_security.demo.domain.model;
 
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
-
-import java.util.Set;
 
 @Repository
 @Entity
@@ -15,8 +13,8 @@ public class Role {
     private Long id;
     @Column(name = "roles_name")
     private String name;
-    @ManyToMany(mappedBy = "roleSet")
-    private Set<User> userSet;
+//    @ManyToMany(mappedBy = "roleSet")
+//    private Set<User> userSet;
 
 
 
@@ -42,5 +40,10 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + name + "}";
     }
 }

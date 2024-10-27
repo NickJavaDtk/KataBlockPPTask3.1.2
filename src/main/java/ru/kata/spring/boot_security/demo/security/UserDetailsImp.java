@@ -4,8 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.spring.model.Role;
-import ru.kata.spring.boot_security.demo.spring.model.User;
+import ru.kata.spring.boot_security.demo.domain.model.Role;
+import ru.kata.spring.boot_security.demo.domain.model.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,5 +58,9 @@ public class UserDetailsImp implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
