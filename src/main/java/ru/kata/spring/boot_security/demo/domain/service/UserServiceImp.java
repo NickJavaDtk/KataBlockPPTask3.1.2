@@ -34,8 +34,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Transactional
     @Override
     public Optional<User> getUser(String id) {
-        if(checkLongValue(id)) {
-           return repository.findById(Long.valueOf(id));
+        if (checkLongValue(id)) {
+            return repository.findById(Long.valueOf(id));
         }
         return null;
     }
@@ -66,9 +66,9 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void deleteUser(String id) {
-       if (checkLongValue(id)) {
-           repository.deleteById(Long.parseLong(id));
-       }
+        if (checkLongValue(id)) {
+            repository.deleteById(Long.parseLong(id));
+        }
     }
 
     @Transactional
@@ -102,6 +102,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
         return new UserDetailsImp(userTmp);
     }
+
     @Override
     public String getCheckFieldAddUser(User users, BindingResult result, Model model, RoleService roleService) {
         Optional<User> userTmp = getUserByUsername(users.getUsername());
@@ -128,14 +129,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public String getCheckFieldEditUser(User users, BindingResult result, Model model, RoleService roleService) {
         if (result.hasErrors()) {
-            Set<Role> rolesList = users.getRoleSet();
+            List<Role> rolesList = roleService.getRoleList();
             model.addAttribute("roles", rolesList);
             return "admin/edituser";
         }
         if (users.getRoleSet().isEmpty()) {
             result.rejectValue("roleSet", "error.roleSet", "Вы должны выбрать права пользователя");
-            User userTmp = getUserByUsername(users.getUsername()).get();
-            Set<Role> rolesList = userTmp.getRoleSet();
+            List<Role> rolesList = roleService.getRoleList();
             model.addAttribute("roles", rolesList);
             return "admin/edituser";
         }

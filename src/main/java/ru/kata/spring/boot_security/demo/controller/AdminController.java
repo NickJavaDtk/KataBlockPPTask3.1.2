@@ -56,7 +56,8 @@ public class AdminController {
     @GetMapping("/user/edit")
     public String getEditUserPage(@RequestParam("userId") String id, Model model) {
         User userTmp = userService.getUser(id).get();
-        Set<Role> roles = userTmp.getRoleSet();
+        List<Role> roles = roleService.getRoleList();
+        //Set<Role> roles = userTmp.getRoleSet();
         model.addAttribute("edituser", userTmp);
         model.addAttribute("roles", roles);
         return "admin/edituser";
