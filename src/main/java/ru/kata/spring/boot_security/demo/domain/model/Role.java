@@ -1,9 +1,8 @@
 package ru.kata.spring.boot_security.demo.domain.model;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Repository;
 
-@Repository
+
 @Entity
 @Table(name = "roles")
 public class Role {

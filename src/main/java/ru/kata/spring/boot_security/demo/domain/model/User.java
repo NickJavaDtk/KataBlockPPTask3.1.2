@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashSet;
 import java.util.Set;
 
-@Repository
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -21,7 +21,6 @@ public class User {
     @Column(name = "users_id")
     private Long id;
     @NotBlank(message = "Логин не должен быть пустым")
-    //@UniqueElements
     @Column(name = "login")
     private String username;
     @NotBlank(message = "Пароль не должно быть пустым")
